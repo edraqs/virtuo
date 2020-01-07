@@ -4,7 +4,7 @@
 //useful for ALL 5 steps
 //could be an array of objects that you fetched from api or database
 const cars = [{
-  'id': 'a9c1b91b-5e3d-4cec-a3cb-ef7eebb4892e',
+  'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
   'name': 'fiat-500-x',
   'pricePerDay': 36,
   'pricePerKm': 0.10
@@ -160,3 +160,30 @@ const actors = [{
 console.log(cars);
 console.log(rentals);
 console.log(actors);
+
+function rentalPrice(rental)
+{
+    var date1=new Date(rental.pickupDate);
+    var date2=new Date(rental.returnDate);
+    var time=(Math.abs(date2-date1)/86400000)+1;
+    var prices=fetchCarPrices(rental.carId);
+    time=time*prices[0];
+    var dist=rental.distance*prices[1];
+    var price=dist+time;
+    return price;
+}
+
+function fetchCarPrices(carID)
+{
+    var size=cars.length;
+    for(var i=0;i<size;i++)
+    {
+        if (cars[i].id==carID)
+        {
+            return [cars[i].pricePerDay,cars[i].pricePerKm];
+        }
+    }
+}
+
+
+console.log(rentalPrice(rentals[1]));
