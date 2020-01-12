@@ -234,3 +234,42 @@ function Commission(rental,rentalPrice)
 }
 
 console.log("Commissions: ",Commission(rentals[2],ScalingRentalPrice(rentals[2])))
+
+// Step 4
+
+function ScalingDeductibleRentalPrice(rental)
+{
+    var date1=new Date(rental.pickupDate);
+    var date2=new Date(rental.returnDate);
+    var time=(Math.abs(date2-date1)/86400000)+1;
+    var prices=fetchCarPrices(rental.carId);
+    var timeCost;
+    if(time>=1 && time<5)
+    {
+        timeCost=prices[0]+(time-1)*(prices[0]*0.9);
+    }
+    else if(time>4 && time<11)
+    {
+        timeCost=prices[0]+3*(prices[0]*0.9)+(time-4)*(prices[0]*0.7);
+    }
+    else if(time>10)
+    {
+        timeCost=prices[0]+3*(prices[0]*0.9)+6*(prices[0]*0.7)+(time-10)*(prices[0]*0.5);
+    }
+    var dist=rental.distance*prices[1];
+    var deductiblePrice;
+    var price;
+    if(rental.options.deductibleReduction==true)
+    {
+        deductiblePrice=4*time;
+        price=dist+timeCost+deductiblePrice;
+    }
+    else
+    {
+        price=dist+timeCost;
+        deductiblePrice=0;
+    }
+    return {'price':price,'deductiblePrice':deductiblePrice};
+}
+
+console.log("Price :",ScalingDeductibleRentalPrice(rentals[2]));
