@@ -218,3 +218,19 @@ function ScalingRentalPrice(rental)
 }
 
 console.log("Scaling price: ",ScalingRentalPrice(rentals[2]));
+
+// Step 3
+
+function Commission(rental,rentalPrice)
+{
+    var totalCommission=0.3*rentalPrice;
+    var insurance=0.5*totalCommission;
+    var date1=new Date(rental.pickupDate);
+    var date2=new Date(rental.returnDate);
+    var time=(Math.abs(date2-date1)/86400000)+1;
+    var treasury=time;
+    var virtuo=totalCommission-insurance-treasury;
+    return {'insurance':insurance,'treasury':treasury,'virtuo':virtuo};
+}
+
+console.log("Commissions: ",Commission(rentals[2],ScalingRentalPrice(rentals[2])))
