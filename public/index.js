@@ -73,6 +73,7 @@ const rentals = [{
   'carId': '4afcc3a2-bbf4-44e8-b739-0179a6cd8b7d',
   'pickupDate': '2019-12-01',
   'returnDate': '2019-12-15',
+  'distance': 1500,
   'options': {
     'deductibleReduction': true
   },
@@ -161,6 +162,8 @@ console.log(cars);
 console.log(rentals);
 console.log(actors);
 
+// Step1
+
 function rentalPrice(rental)
 {
     var date1=new Date(rental.pickupDate);
@@ -186,4 +189,32 @@ function fetchCarPrices(carID)
 }
 
 
-console.log(rentalPrice(rentals[1]));
+console.log("Unscaled price: ",rentalPrice(rentals[2]));
+
+
+// Step 2
+
+function ScalingRentalPrice(rental)
+{
+    var date1=new Date(rental.pickupDate);
+    var date2=new Date(rental.returnDate);
+    var time=(Math.abs(date2-date1)/86400000)+1;
+    var prices=fetchCarPrices(rental.carId);
+    if(time>=1 && time<5)
+    {
+        time=prices[0]+(time-1)*(prices[0]*0.9);
+    }
+    else if(time>4 && time<11)
+    {
+        time=prices[0]+3*(prices[0]*0.9)+(time-4)*(prices[0]*0.7);
+    }
+    else if(time>10)
+    {
+        time=prices[0]+3*(prices[0]*0.9)+6*(prices[0]*0.7)+(time-10)*(prices[0]*0.5);
+    }
+    var dist=rental.distance*prices[1];
+    var price=dist+time;
+    return price;
+}
+
+console.log("Scaling price: ",ScalingRentalPrice(rentals[2]));
