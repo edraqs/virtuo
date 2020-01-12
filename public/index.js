@@ -162,7 +162,7 @@ console.log(cars);
 console.log(rentals);
 console.log(actors);
 
-// Step1
+// Step 1
 
 function rentalPrice(rental)
 {
@@ -273,3 +273,40 @@ function ScalingDeductibleRentalPrice(rental)
 }
 
 console.log("Price :",ScalingDeductibleRentalPrice(rentals[2]));
+
+// Step 5
+
+function createJson(who,type,amount)
+{
+    var obj = new Object();
+    obj.who = who;
+    obj.type  = type;
+    obj.amount = amount;
+    return obj;
+}
+
+function Transactions(rental)
+{
+    var payment = [];
+    var temp = ScalingDeductibleRentalPrice(rental);
+    var price = temp.price;
+    var deductiblePrice = temp.deductiblePrice;
+    var commissions = Commission(rental,price-deductiblePrice);
+    var driverAmount = price;
+    var partnerAmount = 0.7*price;
+    var insuranceAmount = commissions.insurance;
+    var treasuryAmount = commissions.treasury;
+    var virtuoAmount= commissions.virtuo+deductiblePrice;
+    var driver = createJson('driver','debit',driverAmount);
+    var partner = createJson('partner','credit',partnerAmount);
+    var insurance = createJson('insurance','credit',insuranceAmount);
+    var treasury = createJson('treasury','credit',treasuryAmount);
+    var virtuo = createJson('virtuo','credit',virtuoAmount);
+    var payment = [driver, partner, insurance, treasury, virtuo];
+    var display = new Object();
+    display.rentalId = rental.id;
+    display.payment = payment;
+    return display;
+}
+
+console.log(Transactions(rentals[2]));
