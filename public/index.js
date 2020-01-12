@@ -293,7 +293,7 @@ function Transactions(rental)
     var deductiblePrice = temp.deductiblePrice;
     var commissions = Commission(rental,price-deductiblePrice);
     var driverAmount = price;
-    var partnerAmount = 0.7*price;
+    var partnerAmount = 0.7*(price-deductiblePrice);
     var insuranceAmount = commissions.insurance;
     var treasuryAmount = commissions.treasury;
     var virtuoAmount= commissions.virtuo+deductiblePrice;
