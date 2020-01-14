@@ -246,15 +246,15 @@ function ScalingDeductibleRentalPrice(rental)
     var timeCost;
     if(time>=1 && time<5)
     {
-        timeCost=prices[0]+(time-1)*(prices[0]*0.9);
+        timeCost=prices[0]*0.9;
     }
     else if(time>4 && time<11)
     {
-        timeCost=prices[0]+3*(prices[0]*0.9)+(time-4)*(prices[0]*0.7);
+        timeCost=prices[0]0.7;
     }
     else if(time>10)
     {
-        timeCost=prices[0]+3*(prices[0]*0.9)+6*(prices[0]*0.7)+(time-10)*(prices[0]*0.5);
+        timeCost=prices[0]*0.5;
     }
     var dist=rental.distance*prices[1];
     var deductiblePrice;
